@@ -30,11 +30,15 @@ public class Mouse : MonoBehaviour {
 	void ActMouse()
 	{
 		Vector3 directionToCat = cat.position - transform.position;
-		if( Vector3.Angle (transform.forward, directionToCat) < 180)
+		if( Vector3.Angle (transform.forward, directionToCat) <= 180)
 		{
 			Ray mouseRay = new Ray(transform.position, directionToCat);
 			RaycastHit mouseRayInfo;
-			if(Physics.SphereCast(mouseRay, 1, out mouseRayInfo, 100))
+			float distance = 20;
+			if(!doMouse)
+				distance = 15;
+
+			if(Physics.Raycast(mouseRay, out mouseRayInfo, distance))
 			{
 				if(mouseRayInfo.collider.tag == "Cat")
 				{	
@@ -42,8 +46,8 @@ public class Mouse : MonoBehaviour {
 					{
 						Destroy(mouseRayInfo.collider.gameObject);
 					}
-					if(doMouse){rb.velocity = Vector3.Normalize (-directionToCat) * 1000f;}
-					else {rb.velocity = Vector3.Normalize (directionToCat) * 900f;}
+					if(doMouse){rb.velocity = Vector3.Normalize (-directionToCat) * 40f;}
+					else {rb.velocity = (Vector3.Normalize (directionToCat) * 30f);}
 				}
 
 			}

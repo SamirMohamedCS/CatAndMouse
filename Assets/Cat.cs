@@ -30,11 +30,14 @@ public class Cat : MonoBehaviour {
 	void ActCat()
 	{
 		Vector3 directionToMouse = mouse.position - transform.position;
-		if( Vector3.Angle (transform.forward, directionToMouse) < 180)
+		if( Vector3.Angle (transform.forward, directionToMouse) <= 180)
 		{
 			Ray catRay = new Ray(transform.position, directionToMouse);
 			RaycastHit catRayInfo;
-			if(Physics.SphereCast(catRay, 1, out catRayInfo, 100))
+			float distance = 20;
+			if(doCat)
+				distance = 15;
+			if(Physics.Raycast(catRay, out catRayInfo, distance))
 			{
 
 				if(catRayInfo.collider.tag == "Mouse")
@@ -43,8 +46,8 @@ public class Cat : MonoBehaviour {
 					{
 						Destroy(catRayInfo.collider.gameObject);
 					}
-					if(!doCat){rb.velocity = Vector3.Normalize (-directionToMouse) * 100f;}
-					else {rb.velocity = Vector3.Normalize (directionToMouse) * 900f;}
+					if(!doCat){rb.velocity =  (Vector3.Normalize (-directionToMouse) * 40f);}
+					else {rb.velocity = (Vector3.Normalize (directionToMouse) * 30f);}
 				}
 				
 			}
